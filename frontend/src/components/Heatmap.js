@@ -22,6 +22,9 @@ function Heatmap ({ timestamps, timeOffset }) {
         .map(t => {
           const date = new Date(t)
           console.log(date.getHours() + offset)
+          if (offset < 0){
+            return { hour: (24 + date.getHours() + offset) % 24, day: (7 + date.getDay() + Math.floor((date.getHours() + offset) / 24)) % 7, count: 1 }
+          }
           return { hour: (date.getHours() + offset) % 24, day: (date.getDay() + Math.floor((date.getHours() + offset) / 24)) % 7, count: 1 }
         })
         .reduce((acc, cur) => {
