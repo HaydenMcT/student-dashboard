@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
 
-function Heatmap ({ timestamps }) {
+function Heatmap ({ timestamps, timeOffset }) {
+  let offset = Number(timeOffset)
+
   const d3Ref = useRef(null)
 
   const width = 1200
@@ -19,7 +21,8 @@ function Heatmap ({ timestamps }) {
       const timeData = timestamps
         .map(t => {
           const date = new Date(t)
-          return { hour: date.getHours(), day: date.getDay(), count: 1 }
+          console.log(date.getHours() + offset)
+          return { hour: (date.getHours() + offset) % 24, day: (date.getDay() + Math.floor((date.getHours() + offset) / 24)) % 7, count: 1 }
         })
         .reduce((acc, cur) => {
           const sameHourAndDay = acc
